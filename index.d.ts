@@ -20,12 +20,12 @@ export interface AuthorizationCodeResponse {
   expires_at?: string;
 }
 
-export declare class SupperappEmbedError extends Error {
+export declare class SuperappEmbedError extends Error {
   readonly code: string;
   constructor(code: string, message: string, cause?: unknown);
 }
 
-export declare class SupperappEmbedSDK {
+export declare class SuperappEmbedSDK {
   constructor(options?: SDKOptions);
   getContext(): Promise<unknown>;
   getAuthCode(request: {
@@ -40,4 +40,4 @@ export declare class SupperappEmbedSDK {
   close(): Promise<unknown>;
 }
 
-export declare function createSupperappEmbedSDK(options?: SDKOptions): SupperappEmbedSDK;
+export declare function createSuperappEmbedSDK(options?: SDKOptions): SuperappEmbedSDK;

@@ -1,14 +1,14 @@
-# Supperapp Embed JS SDK
+# Superapp Embed JS SDK
 
-面向嵌入 Supperapp Wallet Native WebView 的第三方 H5。SDK 将 Partner Backend
+面向嵌入 Superapp Wallet Native WebView 的第三方 H5。SDK 将 Partner Backend
 bootstrap、Native Bridge 授权和服务端完成动作封装为一次调用；PKCE verifier 和
-Supperapp Token 不会进入浏览器。
+Superapp Token 不会进入浏览器。
 
 ```js
-import { createSupperappEmbedSDK } from "@supperapp/embed-sdk";
+import { createSuperappEmbedSDK } from "@superapp/embed-sdk";
 
-const supperapp = createSupperappEmbedSDK();
-const session = await supperapp.authenticate({
+const superapp = createSuperappEmbedSDK();
+const session = await superapp.authenticate({
   bootstrapURL: "/api/sso/bootstrap",
   completeURL: "/api/sso/complete",
   scopes: ["auth_base", "profile.name"]

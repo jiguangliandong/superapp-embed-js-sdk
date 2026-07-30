@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { SupperappEmbedSDK } from "../src/index.js";
+import { SuperappEmbedSDK } from "../src/index.js";
 
 test("authenticate keeps verifier out of H5 and completes through Partner Backend", async () => {
   const requests = [];
@@ -25,7 +25,7 @@ test("authenticate keeps verifier out of H5 and completes through Partner Backen
       return { code: "embcode_demo", state: params.state };
     }
   };
-  const sdk = new SupperappEmbedSDK({ bridge, fetch });
+  const sdk = new SuperappEmbedSDK({ bridge, fetch });
   const result = await sdk.authenticate({ bootstrapURL: "/bootstrap", completeURL: "/complete" });
 
   assert.equal(result.open_id, "eoi_demo");
@@ -37,7 +37,7 @@ test("authenticate keeps verifier out of H5 and completes through Partner Backen
 });
 
 test("getAuthCode rejects a state mismatch", async () => {
-  const sdk = new SupperappEmbedSDK({
+  const sdk = new SuperappEmbedSDK({
     fetch: async () => Response.json({}),
     bridge: { invoke: async () => ({ code: "code", state: "wrong" }) }
   });

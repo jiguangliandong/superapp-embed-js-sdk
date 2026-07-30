@@ -1,23 +1,23 @@
 const DEFAULT_TIMEOUT_MS = 15_000;
 
-export class SupperappEmbedError extends Error {
+export class SuperappEmbedError extends Error {
   constructor(code, message, cause) {
     super(message, cause ? { cause } : undefined);
-    this.name = "SupperappEmbedError";
+    this.name = "SuperappEmbedError";
     this.code = code;
   }
 }
 
-export class SupperappEmbedSDK {
+export class SuperappEmbedSDK {
   constructor(options = {}) {
-    this.bridge = options.bridge ?? globalThis.SupperappNativeBridge;
+    this.bridge = options.bridge ?? globalThis.SuperappNativeBridge;
     this.fetch = options.fetch ?? globalThis.fetch?.bind(globalThis);
     this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
     if (!this.bridge || typeof this.bridge.invoke !== "function") {
-      throw new SupperappEmbedError("bridge_unavailable", "Supperapp Native Bridge is unavailable");
+      throw new SuperappEmbedError("bridge_unavailable", "Superapp Native Bridge is unavailable");
     }
     if (!this.fetch) {
-      throw new SupperappEmbedError("fetch_unavailable", "Fetch API is unavailable");
+      throw new SuperappEmbedError("fetch_unavailable", "Fetch API is unavailable");
     }
   }
 
@@ -39,7 +39,7 @@ export class SupperappEmbedSDK {
       code_challenge_method: "S256"
     });
     if (response?.state !== request.state) {
-      throw new SupperappEmbedError("state_mismatch", "Native authorization response state does not match");
+      throw new SuperappEmbedError("state_mismatch", "Native authorization response state does not match");
     }
     return response;
   }
@@ -86,11 +86,11 @@ export class SupperappEmbedSDK {
     try {
       response = await this.fetch(url, init);
     } catch (error) {
-      throw new SupperappEmbedError("network_error", "Partner Backend request failed", error);
+      throw new SuperappEmbedError("network_error", "Partner Backend request failed", error);
     }
     const body = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new SupperappEmbedError(
+      throw new SuperappEmbedError(
         body.code ?? "partner_request_failed",
         body.message ?? `Partner Backend returned HTTP ${response.status}`
       );
@@ -105,26 +105,26 @@ export class SupperappEmbedSDK {
         this.timeoutMs
       );
     } catch (error) {
-      if (error instanceof SupperappEmbedError) throw error;
-      throw new SupperappEmbedError("bridge_error", `Bridge method ${method} failed`, error);
+      if (error instanceof SuperappEmbedError) throw error;
+      throw new SuperappEmbedError("bridge_error", `Bridge method ${method} failed`, error);
     }
   }
 }
 
-export function createSupperappEmbedSDK(options) {
-  return new SupperappEmbedSDK(options);
+export function createSuperappEmbedSDK(options) {
+  return new SuperappEmbedSDK(options);
 }
 
 function requireText(value, field) {
   if (typeof value !== "string" || value.trim() === "") {
-    throw new SupperappEmbedError("invalid_argument", `${field} is required`);
+    throw new SuperappEmbedError("invalid_argument", `${field} is required`);
   }
 }
 
 function withTimeout(promise, timeoutMs) {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(
-      () => reject(new SupperappEmbedError("bridge_timeout", "Native Bridge request timed out")),
+      () => reject(new SuperappEmbedError("bridge_timeout", "Native Bridge request timed out")),
       timeoutMs
     );
     promise.then(
