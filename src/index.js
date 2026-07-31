@@ -14,7 +14,7 @@ export class SuperappEmbedSDK {
     this.fetch = options.fetch ?? globalThis.fetch?.bind(globalThis);
     this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
     if (!this.bridge || typeof this.bridge.invoke !== "function") {
-      throw new SuperappEmbedError("bridge_unavailable", "Superapp Native Bridge is unavailable");
+      throw new SuperappEmbedError("bridge_unavailable", "Superapp host bridge is unavailable");
     }
     if (!this.fetch) {
       throw new SuperappEmbedError("fetch_unavailable", "Fetch API is unavailable");
@@ -44,7 +44,7 @@ export class SuperappEmbedSDK {
     return response;
   }
 
-  // authenticate 把 bootstrap、Native 授权和服务端完成三个动作合并。
+  // authenticate 把 bootstrap、宿主授权和服务端完成三个动作合并。
   // code_verifier 从不进入浏览器，它由 Partner Backend 通过 transaction_id 找回。
   async authenticate(options) {
     const bootstrap = await this.#json(options.bootstrapURL, {
@@ -106,7 +106,7 @@ export class SuperappEmbedSDK {
       );
     } catch (error) {
       if (error instanceof SuperappEmbedError) throw error;
-      throw new SuperappEmbedError("bridge_error", `Bridge method ${method} failed`, error);
+      throw new SuperappEmbedError("bridge_error", `Host bridge method ${method} failed`, error);
     }
   }
 }
@@ -124,7 +124,7 @@ function requireText(value, field) {
 function withTimeout(promise, timeoutMs) {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(
-      () => reject(new SuperappEmbedError("bridge_timeout", "Native Bridge request timed out")),
+      () => reject(new SuperappEmbedError("bridge_timeout", "Host bridge request timed out")),
       timeoutMs
     );
     promise.then(

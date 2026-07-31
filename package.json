@@ -1,6 +1,6 @@
 {
   "name": "@superapp/embed-sdk",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Superapp Embed H5 Bridge SDK",
   "type": "module",
   "exports": {
