@@ -106,13 +106,27 @@ export class SuperappEmbedSDK {
       );
     } catch (error) {
       if (error instanceof SuperappEmbedError) throw error;
-      throw new SuperappEmbedError("bridge_error", `Host bridge method ${method} failed`, error);
+      throw new SuperappEmbedError(
+        structuredBridgeCode(error),
+        structuredBridgeMessage(error, method),
+        error
+      );
     }
   }
 }
 
 export function createSuperappEmbedSDK(options) {
   return new SuperappEmbedSDK(options);
+}
+
+function structuredBridgeCode(error) {
+  const code = typeof error?.code === "string" ? error.code.trim() : "";
+  return code || "bridge_error";
+}
+
+function structuredBridgeMessage(error, method) {
+  const message = typeof error?.message === "string" ? error.message.trim() : "";
+  return message || `Host bridge method ${method} failed`;
 }
 
 function requireText(value, field) {
