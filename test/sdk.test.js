@@ -36,6 +36,28 @@ test("authenticate keeps verifier out of H5 and completes through Partner Backen
   });
 });
 
+test("getAuthCode preserves structured native rejection codes", async () => {
+  const sdk = new SuperappEmbedSDK({
+    fetch: async () => Response.json({}),
+    bridge: {
+      invoke: async () => {
+        const error = new Error("User declined the requested permission");
+        error.code = "user_denied";
+        throw error;
+      }
+    }
+  });
+  await assert.rejects(
+    sdk.getAuthCode({
+      transactionId: "tx",
+      clientId: "client",
+      state: "expected-state",
+      codeChallenge: "challenge"
+    }),
+    { code: "user_denied" }
+  );
+});
+
 test("getAuthCode rejects a state mismatch", async () => {
   const sdk = new SuperappEmbedSDK({
     fetch: async () => Response.json({}),
