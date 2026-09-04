@@ -37,6 +37,7 @@ export declare class SuperappEmbedSDK {
   }): Promise<AuthorizationCodeResponse>;
   authenticate(options: AuthenticationOptions): Promise<unknown>;
   openPrivacySettings(): Promise<unknown>;
+  scanCode(params?: Record<string, unknown>): Promise<unknown>;
   close(): Promise<unknown>;
 }
 

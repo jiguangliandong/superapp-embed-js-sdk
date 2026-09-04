@@ -73,3 +73,33 @@ test("getAuthCode rejects a state mismatch", async () => {
     { code: "state_mismatch" }
   );
 });
+
+test("scanCode forwards params to the host bridge", async () => {
+  const params = { scan_type: ["qrCode"] };
+  const sdk = new SuperappEmbedSDK({
+    fetch: async () => Response.json({}),
+    bridge: {
+      invoke: async (method, received) => {
+        assert.equal(method, "scanCode");
+        assert.equal(received, params);
+        return { result: "https://example.test" };
+      }
+    }
+  });
+  const result = await sdk.scanCode(params);
+  assert.deepEqual(result, { result: "https://example.test" });
+});
+
+test("scanCode forwards an empty object when params are omitted", async () => {
+  const sdk = new SuperappEmbedSDK({
+    fetch: async () => Response.json({}),
+    bridge: {
+      invoke: async (method, received) => {
+        assert.equal(method, "scanCode");
+        assert.deepEqual(received, {});
+        return {};
+      }
+    }
+  });
+  await sdk.scanCode();
+});
