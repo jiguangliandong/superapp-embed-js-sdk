@@ -76,6 +76,10 @@ export class SuperappEmbedSDK {
     return this.#invoke("openPrivacySettings", {});
   }
 
+  scanCode(params = {}) {
+    return this.#invoke("scanCode", params ?? {});
+  }
+
   close() {
     return this.#invoke("close", {});
   }
