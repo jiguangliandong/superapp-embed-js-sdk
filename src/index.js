@@ -80,6 +80,10 @@ export class SuperappEmbedSDK {
     return this.#invoke("scanCode", params ?? {});
   }
 
+  dialPhone(params = {}) {
+    return this.#invoke("dialPhone", params ?? {});
+  }
+
   close() {
     return this.#invoke("close", {});
   }
