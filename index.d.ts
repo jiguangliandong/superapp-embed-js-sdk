@@ -38,6 +38,7 @@ export declare class SuperappEmbedSDK {
   authenticate(options: AuthenticationOptions): Promise<unknown>;
   openPrivacySettings(): Promise<unknown>;
   scanCode(params?: Record<string, unknown>): Promise<unknown>;
+  dialPhone(params?: Record<string, unknown>): Promise<unknown>;
   close(): Promise<unknown>;
 }
 

@@ -103,3 +103,32 @@ test("scanCode forwards an empty object when params are omitted", async () => {
   });
   await sdk.scanCode();
 });
+
+test("dialPhone forwards params to the host bridge", async () => {
+  const params = { phone_number: "+60123456789" };
+  const sdk = new SuperappEmbedSDK({
+    fetch: async () => Response.json({}),
+    bridge: {
+      invoke: async (method, received) => {
+        assert.equal(method, "dialPhone");
+        assert.equal(received, params);
+        return {};
+      }
+    }
+  });
+  await sdk.dialPhone(params);
+});
+
+test("dialPhone forwards an empty object when params are omitted", async () => {
+  const sdk = new SuperappEmbedSDK({
+    fetch: async () => Response.json({}),
+    bridge: {
+      invoke: async (method, received) => {
+        assert.equal(method, "dialPhone");
+        assert.deepEqual(received, {});
+        return {};
+      }
+    }
+  });
+  await sdk.dialPhone();
+});
