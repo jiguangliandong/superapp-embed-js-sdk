@@ -84,6 +84,10 @@ export class SuperappEmbedSDK {
     return this.#invoke("dialPhone", params ?? {});
   }
 
+  saveImageToAlbum(params = {}) {
+    return this.#invoke("saveImageToAlbum", params ?? {});
+  }
+
   close() {
     return this.#invoke("close", {});
   }
