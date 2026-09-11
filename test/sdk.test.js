@@ -132,3 +132,32 @@ test("dialPhone forwards an empty object when params are omitted", async () => {
   });
   await sdk.dialPhone();
 });
+
+test("saveImageToAlbum forwards params to the host bridge", async () => {
+  const params = { image_url: "https://example.test/photo.png" };
+  const sdk = new SuperappEmbedSDK({
+    fetch: async () => Response.json({}),
+    bridge: {
+      invoke: async (method, received) => {
+        assert.equal(method, "saveImageToAlbum");
+        assert.equal(received, params);
+        return {};
+      }
+    }
+  });
+  await sdk.saveImageToAlbum(params);
+});
+
+test("saveImageToAlbum forwards an empty object when params are omitted", async () => {
+  const sdk = new SuperappEmbedSDK({
+    fetch: async () => Response.json({}),
+    bridge: {
+      invoke: async (method, received) => {
+        assert.equal(method, "saveImageToAlbum");
+        assert.deepEqual(received, {});
+        return {};
+      }
+    }
+  });
+  await sdk.saveImageToAlbum();
+});

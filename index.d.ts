@@ -39,6 +39,7 @@ export declare class SuperappEmbedSDK {
   openPrivacySettings(): Promise<unknown>;
   scanCode(params?: Record<string, unknown>): Promise<unknown>;
   dialPhone(params?: Record<string, unknown>): Promise<unknown>;
+  saveImageToAlbum(params?: Record<string, unknown>): Promise<unknown>;
   close(): Promise<unknown>;
 }
 
