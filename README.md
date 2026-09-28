@@ -1,6 +1,6 @@
 # Superapp Embed JS SDK
 
-版本：`0.0.4`
+版本：`0.0.5`
 
 面向嵌入 Superapp APP 受信 WebView 的第三方 H5。SDK 将 Partner Backend
 bootstrap、宿主授权和服务端完成动作封装为一次调用；PKCE verifier 和
