@@ -6,12 +6,14 @@ export interface SDKOptions {
   bridge?: NativeBridge;
   fetch?: typeof globalThis.fetch;
   timeoutMs?: number;
+  requestTimeoutMs?: number;
 }
 
 export interface AuthenticationOptions {
   bootstrapURL: string;
   completeURL: string;
   scopes?: string[];
+  signal?: AbortSignal;
 }
 
 export interface AuthorizationCodeResponse {
@@ -22,10 +24,15 @@ export interface AuthorizationCodeResponse {
 
 export declare class SuperappEmbedError extends Error {
   readonly code: string;
-  constructor(code: string, message: string, cause?: unknown);
+  readonly status?: number;
+  constructor(code: string, message: string, cause?: unknown, status?: number);
 }
 
 export declare class SuperappEmbedSDK {
+  bridge: NativeBridge;
+  fetch: typeof globalThis.fetch;
+  timeoutMs: number;
+  requestTimeoutMs: number;
   constructor(options?: SDKOptions);
   getContext(): Promise<unknown>;
   getAuthCode(request: {
